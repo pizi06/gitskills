@@ -87,6 +87,9 @@ set foldmethod=marker
 " 自动缩进
 set autoindent
 "set cindent
+set cindent
+set cinkeys-=0#
+set indentkeys-=0#
 
 " Tab键的宽度
 set tabstop=4
@@ -115,6 +118,8 @@ set showmatch
 " 80
 set cc=80
 
+" set columns=90
+" set lines=50
 color desert
 set go= "“无菜单、工具栏”
 
@@ -198,6 +203,11 @@ map <F2> :NERDTreeToggle<CR>
 Bundle 'bling/vim-airline'
 set laststatus=2
 
+Bundle 'nvie/vim-flake8'
+Bundle 'PyCQA/flake8'
+autocmd FileType python map <buffer> <F3> :call Flake8()<CR>
+let g:flake8_quickfix_location="topleft"
+let g:flake8_quickfix_height=7
 " Distinct highlighting of keywords vs values, JSON-specific (non-JS)
 " warnings, quote concealing
 Plugin 'https://github.com/elzr/vim-json'
