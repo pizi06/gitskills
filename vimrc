@@ -2,10 +2,8 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-"set rtp+=%USERPROFILE%/vimfiles/bundle/Vundle.vim
-"call vundle#begin('$USERPROFILE/vimfiles/bundle/')
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+set rtp+=%USERPROFILE%/vimfiles/bundle/Vundle.vim
+call vundle#begin('$USERPROFILE/vimfiles/bundle/')
 "call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
@@ -18,11 +16,10 @@ Plugin 'VundleVim/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive'
-
 " plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
+Plugin 'L9'
 " Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
+Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
 "Plugin 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
@@ -30,7 +27,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
+Plugin 'ascenator/L9', {'name': 'newL9'}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -46,7 +43,6 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-
 set nocompatible
 source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
@@ -118,8 +114,8 @@ set showmatch
 " 80
 set cc=80
 
-" set columns=90
-" set lines=50
+set columns=90
+set lines=50
 color desert
 set go= "“无菜单、工具栏”
 
@@ -196,9 +192,15 @@ let Tlist_Use_Left_Windo =1                "在左侧窗口中显示taglist窗�
 
 
 Bundle 'scrooloose/nerdtree'
-let NERDTreeWinPos='right'
-let NERDTreeWinSize=30
+"F2开启和关闭树"
 map <F2> :NERDTreeToggle<CR>
+let NERDTreeChDirMode=1
+"显示书签"
+let NERDTreeShowBookmarks=1
+"设置忽略文件类型"
+let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
+"窗口大小"
+let NERDTreeWinSize=25
 
 Bundle 'bling/vim-airline'
 set laststatus=2
@@ -227,4 +229,6 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " 用红色标记多余空白
 highlight BadWhitespace ctermbg=red guibg=red
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+Plugin 'ctrlpvim/ctrlp.vim'
 " yinpilei
