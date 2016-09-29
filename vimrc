@@ -212,10 +212,11 @@ let g:flake8_quickfix_location="topleft"
 let g:flake8_quickfix_height=7
 " Distinct highlighting of keywords vs values, JSON-specific (non-JS)
 " warnings, quote concealing
-Plugin 'https://github.com/elzr/vim-json'
-let g:vim_json_syntax_conceal = 0
-let g:indentLine_noConcealCursor=""
-:setlocal foldmethod=syntax
+" TODO 导致ctrl n 不能补全，先注释掉，有空再整 
+" Plugin 'https://github.com/elzr/vim-json'
+" let g:vim_json_syntax_conceal = 0
+" let g:indentLine_noConcealCursor=""
+" :setlocal foldmethod=syntax
 
 Bundle 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled = 1
