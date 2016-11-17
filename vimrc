@@ -2,8 +2,8 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=%USERPROFILE%/vimfiles/bundle/Vundle.vim
-call vundle#begin('$USERPROFILE/vimfiles/bundle/')
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 "call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
@@ -17,7 +17,7 @@ Plugin 'VundleVim/Vundle.vim'
 " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive'
 " plugin from http://vim-scripts.org/vim/scripts.html
-Plugin 'L9'
+" Plugin 'L9'
 " Git plugin not hosted on GitHub
 Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
@@ -27,7 +27,7 @@ Plugin 'git://git.wincent.com/command-t.git'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
-Plugin 'ascenator/L9', {'name': 'newL9'}
+" Plugin 'ascenator/L9', {'name': 'newL9'}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -111,15 +111,27 @@ set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
 " 高亮显示匹配的括号
 set showmatch
 
-" 80
-set cc=80
+" 100
+set cc=100
 
-set columns=90
-set lines=50
+set columns=130
+set lines=80
 color desert
 set go= "“无菜单、工具栏”
 
 set nobackup      " do not keep a backup file, use versions instead
+
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" 用红色标记多余空白
+highlight BadWhitespace ctermbg=red guibg=red
+
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+autocmd BufRead *.py nmap <F5> :!python %<CR>
 
 " tab键自动补全python
 filetype plugin on
@@ -146,7 +158,8 @@ au filetype python map <F6> :call CheckPythonSyntax()<CR>
 au filetype python imap <F6> <ESC>:call CheckPythonSyntax()<CR>
 
 
-set guifont=Source\ Code\ Pro:h11
+" set guifont=Source\ Code\ Pro:h11
+set guifont=Monaco:h11
 
 if has("multi_byte")
 "    " UTF-8 编码
@@ -180,8 +193,44 @@ endif
 :autocmd FileType python : set foldmethod=marker
 :autocmd FileType python :set smartindent
 
+let python_highlight_all=1
+syntax on
 
+"auto add pyhton header --start
+autocmd BufNewFile *.py 0r ~/.vim/template/python/pythonconfig.py
+""""""" pythonconfig.py content """""""""""
+" # -*- coding:utf-8 -*-
+" '''
+" Created on 
+" 
+" @author: yinpilei
+" '''
 
+" autocmd BufNewFile *.py ks|call FileName()|'s
+autocmd BufNewFile *.py ks|call CreatedTime()|'s
+
+" fun FileName()
+"     if line("$") > 10
+"         let l = 10  "这里是字母L 不是数字1 
+"     else
+"         let l = line("$")
+"     endif 
+"     exe "1," . l . "g/File Name:.*/s/File Name:.*/File Name: " .expand("%")  
+"     "最前面是数字1，这里的File Name: 要和模板中一致
+" endfun 
+
+fun CreatedTime()
+    if line("$") > 10
+        let l = 10
+    else
+        let l = line("$")
+    endif 
+    exe "1," . l . "g/Created On.*/s/Created On.*/Created On " .strftime("%Y年%m月%d日") 
+    "这里Create Time: 要和模板中一致
+endfun 
+"auto add python header --end
+
+"""""""""""""""""""""""""""""""Bundle"""""""""""""""""""""""""
 Bundle 'taglist.vim'
 let Tlist_Ctags_Cmd='ctags'
 let Tlist_Show_One_File=1 "不同时显示多个文件的tag，只显示当前文件的
@@ -202,14 +251,17 @@ let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 "窗口大小"
 let NERDTreeWinSize=25
 
+
 Bundle 'bling/vim-airline'
 set laststatus=2
 
+Plugin 'scrooloose/syntastic'
 Bundle 'nvie/vim-flake8'
-Bundle 'PyCQA/flake8'
-autocmd FileType python map <buffer> <F3> :call Flake8()<CR>
-let g:flake8_quickfix_location="topleft"
-let g:flake8_quickfix_height=7
+let g:flake8_ignore="E501"
+" Bundle 'PyCQA/flake8'
+" autocmd FileType python map <buffer> <F3> :call Flake8()<CR>
+" let g:flake8_quickfix_location="topleft"
+" let g:flake8_quickfix_height=7
 " Distinct highlighting of keywords vs values, JSON-specific (non-JS)
 " warnings, quote concealing
 " TODO 导致ctrl n 不能补全，先注释掉，有空再整 
@@ -227,9 +279,10 @@ let g:typescript_compiler_options = '-sourcemap'
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 
-" 用红色标记多余空白
-highlight BadWhitespace ctermbg=red guibg=red
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-
 Plugin 'ctrlpvim/ctrlp.vim'
+
+" Bundle 'Valloric/YouCompleteMe'
+" let g:ycm_autoclose_preview_window_after_completion=1
+" map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
 " yinpilei
